@@ -2,8 +2,9 @@ from unittest import TestCase
 import sys
 import os
 
-sys.path.insert(0, '/home/smoke/workspace/weather_mi/infrastructure')
-sys.path.insert(0, '/home/smoke/workspace/weather_mi/core')
+base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.join(base_dir, 'infrastructure'))
+sys.path.insert(0, os.path.join(base_dir, 'core'))
 
 from core.messages import TemperatureMessage
 from infrastructure.weather_services import AccuWeatherService
