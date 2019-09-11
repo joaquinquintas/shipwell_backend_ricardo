@@ -12,6 +12,10 @@ class TemperatureMessage:
     services
     '''
 
+    def __init__(self, service_name: Text, value: float):
+        self.__service_name = service_name
+        self.__value = value
+
     @property
     def service_name(self) -> Text:
         '''
@@ -19,6 +23,7 @@ class TemperatureMessage:
 
         :return: Text
         '''
+        return self.__service_name
 
     @property
     def value(self) -> float:
@@ -27,3 +32,4 @@ class TemperatureMessage:
 
         :return: float
         '''
+        return self.__value

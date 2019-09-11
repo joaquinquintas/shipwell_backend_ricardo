@@ -2,7 +2,7 @@
 weather service factory
 '''
 from typing import Text
-from core.services import WeatherService
+from core.services import AbstractWeatherService
 from infrastructure import weather_services as ws
 
 
@@ -20,10 +20,10 @@ class WeatherServiceFactory:
     __SERVICE_TYPES = {
         'noaa': ws.NoaaWeatherService,
         'weather.com': ws.WeatherService,
-        'accuweather': ws.AccuwatherService,
+        'accuweather': ws.AccuWeatherService,
     }
 
-    def make(self, service_implementation: Text) -> WeatherService:
+    def make(self, service_implementation: Text) -> AbstractWeatherService:
         '''
         factory method that instatiate the service of a given type
 

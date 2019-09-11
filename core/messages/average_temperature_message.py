@@ -5,7 +5,7 @@ from core.message import AverageTemperatureMessage
 '''
 from statistics import mean
 from typing import List
-from . import TemperatureMessage
+from .temperature_message import TemperatureMessage
 
 
 class AverageTemperatureMessage:
@@ -25,7 +25,7 @@ class AverageTemperatureMessage:
 
         :return: float
         '''
-        return mean([temperature_message for temperature_message in self.__service_data])
+        return mean([temperature_message.value for temperature_message in self.__service_data])
 
     @property
     def service_data(self) -> List[TemperatureMessage]:
