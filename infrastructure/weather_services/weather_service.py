@@ -43,6 +43,7 @@ from django.conf import settings
 from core.services import AbstractWeatherService
 from core.messages import TemperatureMessage
 from urllib import request, parse
+from typing import Text
 import json
 
 
@@ -50,16 +51,10 @@ class WeatherService(AbstractWeatherService):
     '''
     noaa weather service implementation
     '''
-    __BASE_URL: str
+    __BASE_URL: Text
 
-    def __init__(self):
-        # la idea seria traer la configuracion de settings.WHEATER_SERVICES
-        # pero al mismo tiempo tengo que contrar un modo de que lo tome la
-        # bateria de pruebas, lo ideal para resolver este problema es poder
-        # contar con un mecanismo de inyeccion de dependencias automatico y
-        # python los tiene pero no me alcanza el tiempo para implementarlo
-        self.__BASE_URL = 'http://127.0.0.1:5000'
-
+    def __init__(self, base_url: Text):
+        self.__BASE_URL = base_url
 
     def get_temperature(self, latitude: float, longitude: float) -> TemperatureMessage:
         values = {
@@ -70,6 +65,7 @@ class WeatherService(AbstractWeatherService):
         url_endpoint = '%s/weatherdotcom' % self.__BASE_URL
         weather_request = request.Request(url_endpoint, payload)
         weather_request.add_header('Content-Type', 'application/json')
+
         with request.urlopen(weather_request) as response:
             data = json.load(response)
             return TemperatureMessage(

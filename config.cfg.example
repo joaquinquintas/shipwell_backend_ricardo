@@ -1,0 +1,8 @@
+[accuweather-connection]
+base_url=
+
+[weatherdotcom-connection]
+base_url=
+
+[noaa-connection]
+base_url=

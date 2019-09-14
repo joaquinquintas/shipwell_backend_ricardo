@@ -120,15 +120,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
-WEATHER_SERVICES = {
-    'accu': {
-        'base_url': 'http://127.0.0.1:5000'
-    },
-    'weatherdotcom': {
-        'base_url': 'http://127.0.0.1:5000'
-    },
-    'noaa': {
-        'base_url': 'http://127.0.0.1:5000'
-    }
-}

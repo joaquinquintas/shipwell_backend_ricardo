@@ -7,13 +7,15 @@ sys.path.insert(0, os.path.join(base_dir, 'infrastructure'))
 sys.path.insert(0, os.path.join(base_dir, 'core'))
 
 from core.messages import TemperatureMessage
-from infrastructure.weather_services import NoaaWeatherService
+from core.services import AbstractWeatherService
+from infrastructure.factories import WeatherServiceFactory
 
 
 class TestNoaaWeatherService(TestCase):
 
     def accu_weather_service_test(self):
-        noaa = NoaaWeatherService()
+        factory = WeatherServiceFactory()
+        noaa: AbstractWeatherService = factory.make('noaa')
         result = noaa.get_temperature(123123, 12312312)
         self.assertIsInstance(result, TemperatureMessage)
         self.assertEqual(result.value, 12)

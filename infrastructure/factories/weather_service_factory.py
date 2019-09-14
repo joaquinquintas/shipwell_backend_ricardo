@@ -4,6 +4,7 @@ weather service factory
 from typing import Text
 from core.services import AbstractWeatherService
 from infrastructure import weather_services as ws
+from infrastructure import config
 
 
 class WeatherServiceNotImplemented(Exception):
@@ -19,7 +20,7 @@ class WeatherServiceFactory:
 
     __SERVICE_TYPES = {
         'noaa': ws.NoaaWeatherService,
-        'weather.com': ws.WeatherService,
+        'weatherdotcom': ws.WeatherService,
         'accuweather': ws.AccuWeatherService,
     }
 
@@ -29,9 +30,19 @@ class WeatherServiceFactory:
 
         :param Text service_implementation
         '''
+        config
         if service_implementation in self.__SERVICE_TYPES:
-            return self.__SERVICE_TYPES[service_implementation]()
+            service_config = self.__get_config(service_implementation)
+            return self.__SERVICE_TYPES[service_implementation](service_config.get('base_url'))
 
         raise WeatherServiceNotImplemented(
             f'Service: {service_implementation} NOT implemented'
         )
+
+    def __get_config(self, service_name: Text):
+        service_config_section = '%s-connection' % service_name
+
+        if service_config_section in config:
+            return config[service_config_section]
+
+        raise Exception('Weather service not configured')
