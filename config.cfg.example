@@ -1,3 +1,11 @@
+[DEFAULT]
+average_unit=
+# posible values for average_conversion_unit
+# F for fahrenheit
+# C for celsius
+# example: average_conversion_unit=F
+average_conversion_unit=
+
 [accuweather-connection]
 base_url=
 
