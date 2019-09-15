@@ -1,11 +1,35 @@
 '''
 django main view for the weather average data
 '''
+from typing import List
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.http.request import HttpRequest
 from django.http.response import JsonResponse
-from infrastructure.factories import WeatherServiceFactory
-from core.messages import FindAverageTemperatureMessage, AverageTemperatureMessage
+from core.messages import FindAverageTemperatureMessage
 from core.handlers import FindAverageTemperatureHandler
+from core.primitives import AverageTemperature
+from .request_adapters import FindAverageTemperatureRequest
+from . import validators
+from infrastructure.factories import WeatherServiceFactory
+from infrastructure.serializers import AverageTemperatureSerializer, ValidationErrorSerializer
+
+
+def validate_request(request: HttpRequest) -> List:
+    errors = []
+    rules = [
+        validators.validate_latitude,
+        validators.validate_longitude,
+        validators.validate_services
+    ]
+
+    for rule in rules:
+        try:
+            rule(request)
+        except ValidationError as error:
+            errors.append(error)
+
+    return errors
 
 
 def index(request: HttpRequest) -> JsonResponse:
@@ -18,17 +42,24 @@ def index(request: HttpRequest) -> JsonResponse:
     :return: JsonResponse
     '''
     service_factory = WeatherServiceFactory()
+    services = {
+        service_name: service_factory.make(service_name)
+        for service_name in settings.LOAD_WEATHER_SERVICES
+    }
+    serializer = AverageTemperatureSerializer()
+    error_serializer = ValidationErrorSerializer()
+    errors = validate_request(request)
 
-    latitude = float(request.GET.get('latitude', ''))
-    longitude = float(request.GET.get('longitude', ''))
-    services = [
-        service_factory.make(service_name)
-        for service_name in request.GET.getlist('services[]', [])
-    ]
-    message = FindAverageTemperatureMessage(latitude, longitude, services)
+    if errors:
+        return JsonResponse(
+            {'error': error_serializer.to_dict(ValidationError(errors)) },
+            status=403
+        )
+
+    message = FindAverageTemperatureRequest(request)
     handler = FindAverageTemperatureHandler(services)
-    average: AverageTemperatureMessage = handler.handle(message)
+    average: AverageTemperature = handler.handle(message)
 
     return JsonResponse({
-        "data": average.average
+        "data": serializer.to_dict(average)
     })

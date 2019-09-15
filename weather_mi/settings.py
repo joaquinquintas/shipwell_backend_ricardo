@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'weather_mi'
 ]
 
 MIDDLEWARE = [
@@ -122,4 +123,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# WEATHER Em I
+
 AVERAGE_CONVERSION_UNIT = config['DEFAULT'].get('average_conversion_unit')
+
+LOAD_WEATHER_SERVICES = [
+    'noaa',
+    'weatherdotcom',
+    'accuweather'
+]
