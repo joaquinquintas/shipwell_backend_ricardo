@@ -28,7 +28,13 @@ class MockFourWhereService(AbstractWeatherService):
 class MockFiveWhereService(AbstractWeatherService):
 
     def get_temperature(self, location: GeoLocation) -> Temperature:
-        return Temperature('five', 5, TemperatureUnit.make_celsius())
+        '''
+        this last service retrive the result on fahrenheit temp unit, but the
+        AverageTemperature primitive converts to a single unit begore to
+        resolve the average:
+        (5 celsius = 41 fahrenheit)
+        '''
+        return Temperature('five', 41, TemperatureUnit.make_fahrenheit())
 
 
 class FindAverageTemperatureTest(FindAverageTemperatureMessage):

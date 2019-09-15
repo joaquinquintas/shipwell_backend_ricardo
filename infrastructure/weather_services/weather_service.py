@@ -70,5 +70,5 @@ class WeatherService(AbstractWeatherService):
             return Temperature(
                 'weather.com',
                 float(data['query']['results']['channel']['condition']['temp']),
-                TemperatureUnit.make_celsius()
+                TemperatureUnit.make_fahrenheit()
             )

@@ -6,7 +6,10 @@ from core.message import AverageTemperatureMessage
 from statistics import mean
 from typing import List
 from core.primitives import Temperature, TemperatureUnit
-from core.exceptions import NoneWeatherServiceDataRetrived
+from core.exceptions import (
+    NoneWeatherServiceDataRetrived,
+    ConversionUnitNotImplemented
+)
 
 
 class AverageTemperature:
@@ -25,6 +28,26 @@ class AverageTemperature:
         self.__service_data = service_data
         self.__conversion_unit = conversion_unit
 
+    def __converted_data(self):
+        '''
+        no need that the original data retrived from services change, only
+        convert to a common unit for achive the average
+        '''
+
+        for temperature in self.__service_data:
+            converted = False
+
+            if self.__conversion_unit.is_celsius:
+                yield temperature.to_celsius()
+                converted = True
+
+            if self.__conversion_unit.is_fahrenheit:
+                yield temperature.to_fahrenheit()
+                converted = True
+
+            if not converted:
+                raise ConversionUnitNotImplemented(self.__conversion_unit)
+
     @property
     def average(self) -> Temperature:
         '''
@@ -32,7 +55,7 @@ class AverageTemperature:
 
         :return: Temperature
         '''
-        average = mean([temperature.value for temperature in self.__service_data])
+        average = mean([temperature.value for temperature in self.__converted_data()])
         return Temperature(
             'weather_mi',
             average,
