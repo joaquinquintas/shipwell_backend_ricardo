@@ -68,7 +68,7 @@ class WeatherService(AbstractWeatherService):
         with request.urlopen(weather_request) as response:
             data = json.load(response)
             return Temperature(
-                'weather.com',
+                'weatherdotcom',
                 float(data['query']['results']['channel']['condition']['temp']),
                 TemperatureUnit.make_fahrenheit()
             )

@@ -60,7 +60,7 @@ class AccuWeatherService(AbstractWeatherService):
         with request.urlopen(f"{url_endpoint}?{url_params}") as response:
             data = json.load(response)
             return Temperature(
-                'accu',
+                'accuweather',
                 float(data["simpleforecast"]["forecastday"][0]["current"]["celsius"]),
                 TemperatureUnit.make_celsius() # TODO: reimplement after that the tests pass
             )
