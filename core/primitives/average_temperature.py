@@ -6,6 +6,7 @@ from core.message import AverageTemperatureMessage
 from statistics import mean
 from typing import List
 from core.primitives import Temperature, TemperatureUnit
+from core.exceptions import NoneWeatherServiceDataRetrived
 
 
 class AverageTemperature:
@@ -17,6 +18,10 @@ class AverageTemperature:
     __conversion_unit: TemperatureUnit
 
     def __init__(self, service_data: List[Temperature], conversion_unit: TemperatureUnit) -> None:
+
+        if not service_data:
+            raise NoneWeatherServiceDataRetrived()
+
         self.__service_data = service_data
         self.__conversion_unit = conversion_unit
 

@@ -15,7 +15,7 @@ def index(request: HttpRequest) -> JsonResponse:
 
     :param: HttpRequest request
 
-    :return: HttpResponse
+    :return: JsonResponse
     '''
     service_factory = WeatherServiceFactory()
 
