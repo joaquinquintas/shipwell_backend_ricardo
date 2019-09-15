@@ -3,7 +3,7 @@ find average temperature module
 '''
 from abc import ABCMeta, abstractmethod
 from typing import Text, Set
-from core.primitives import GeoLocation
+from core.primitives import GeoLocation, TemperatureUnit
 
 
 class FindAverageTemperatureMessage:
@@ -28,4 +28,13 @@ class FindAverageTemperatureMessage:
         weather service set applied to the average temperature data
 
         :return: List[Text]
+        '''
+
+    @property
+    @abstractmethod
+    def conversion_unit(self) -> TemperatureUnit:
+        '''
+        spesify the temperature unit for AverageTemperature primitive
+
+        :return: TemperatureUnit
         '''

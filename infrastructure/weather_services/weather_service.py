@@ -39,12 +39,11 @@ weather service module
     }
 }
 '''
-from django.conf import settings
-from core.services import AbstractWeatherService
-from core.messages import TemperatureMessage
-from urllib import request, parse
 from typing import Text
+from urllib import request, parse
 import json
+from core.services import AbstractWeatherService
+from core.primitives import Temperature, TemperatureUnit, GeoLocation
 
 
 class WeatherService(AbstractWeatherService):
@@ -56,10 +55,10 @@ class WeatherService(AbstractWeatherService):
     def __init__(self, base_url: Text):
         self.__BASE_URL = base_url
 
-    def get_temperature(self, latitude: float, longitude: float) -> TemperatureMessage:
+    def get_temperature(self, location: GeoLocation) -> Temperature:
         values = {
-            'lat': latitude,
-            'lon': longitude,
+            'lat': location.latitude,
+            'lon': location.longitude,
         }
         payload = json.dumps(values).encode('ascii')
         url_endpoint = '%s/weatherdotcom' % self.__BASE_URL
@@ -68,7 +67,8 @@ class WeatherService(AbstractWeatherService):
 
         with request.urlopen(weather_request) as response:
             data = json.load(response)
-            return TemperatureMessage(
+            return Temperature(
                 'weather.com',
-                float(data['query']['results']['channel']['condition']['temp'])
+                float(data['query']['results']['channel']['condition']['temp']),
+                TemperatureUnit.make_celsius()
             )

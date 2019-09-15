@@ -3,10 +3,8 @@ module of the find average temperature handler
 '''
 from typing import List
 from core.services import AbstractWeatherService
-from core.messages import (
-    FindAverageTemperatureMessage,
-    AverageTemperatureMessage
-)
+from core.messages import FindAverageTemperatureMessage
+from core.primitives import AverageTemperature
 
 
 class FindAverageTemperatureHandler:
@@ -19,7 +17,7 @@ class FindAverageTemperatureHandler:
     def __init__(self, weather_services):
         self.__weather_services = weather_services
 
-    def handle(self, message: FindAverageTemperatureMessage) -> AverageTemperatureMessage:
+    def handle(self, message: FindAverageTemperatureMessage) -> AverageTemperature:
         '''
         with the temperature message resolve the temperature data
 
@@ -28,8 +26,8 @@ class FindAverageTemperatureHandler:
         :return: AverageTemperatureMessage
         '''
         service_data = [
-            weather_service.get_temperature(message.latitude, message.longitude)
+            weather_service.get_temperature(message.location)
             for weather_service in self.__weather_services
         ]
 
-        return AverageTemperatureMessage(service_data)
+        return AverageTemperature(service_data, message.conversion_unit)

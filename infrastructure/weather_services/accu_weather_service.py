@@ -32,11 +32,11 @@ HERE is the response format
     }
 }
 '''
-from core.services import AbstractWeatherService
-from core.messages import TemperatureMessage
-from urllib import request, parse
 from typing import Text
+from urllib import request, parse
 import json
+from core.services import AbstractWeatherService
+from core.primitives import Temperature, TemperatureUnit, GeoLocation
 
 
 class AccuWeatherService(AbstractWeatherService):
@@ -49,17 +49,18 @@ class AccuWeatherService(AbstractWeatherService):
     def __init__(self, base_url: Text):
         self.__BASE_URL = base_url
 
-    def get_temperature(self, latitude: float, longitude: float) -> TemperatureMessage:
+    def get_temperature(self, location: GeoLocation) -> Temperature:
         values = {
-            'latitude': latitude,
-            'longitude': longitude,
+            'latitude': location.latitude,
+            'longitude': location.longitude,
         }
         url_params = parse.urlencode(values)
         url_endpoint = '%s/accuweather' % self.__BASE_URL
 
         with request.urlopen(f"{url_endpoint}?{url_params}") as response:
             data = json.load(response)
-            return TemperatureMessage(
+            return Temperature(
                 'accu',
-                float(data["simpleforecast"]["forecastday"][0]["current"]["celsius"])
+                float(data["simpleforecast"]["forecastday"][0]["current"]["celsius"]),
+                TemperatureUnit.make_celsius() # TODO: reimplement after that the tests pass
             )

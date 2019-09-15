@@ -2,7 +2,7 @@
 weather service abastraction
 '''
 from abc import ABC, abstractmethod
-from core.messages import TemperatureMessage
+from core.primitives import Temperature, GeoLocation
 
 
 class AbstractWeatherService(ABC):
@@ -11,7 +11,7 @@ class AbstractWeatherService(ABC):
     '''
 
     @abstractmethod
-    def get_temperature(self, latitude: float, longitude: float) -> TemperatureMessage:
+    def get_temperature(self, location: GeoLocation) -> Temperature:
         '''
         retrive the temperature data from the implementation of a weather
         service provider
