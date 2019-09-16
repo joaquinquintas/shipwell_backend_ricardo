@@ -1,4 +1,6 @@
-# weather m i ## Introduction 
+# weather m i
+
+## Introduction 
 La intencion detras de este proyecto es porder formar un hexagono lo mas prolijo posible. Con el fin de poder expandir futuros requermientos sin entorpecer lo desarrollado hasta ahora (Ver https://fideloper.com/hexagonal-architecture)
 
 El producto final debe ser capaz de:
@@ -95,5 +97,8 @@ curl "http://localhost:8000/average_temperature/?latitude=33&longitude=44&servic
 ```
 
 The `service[]` filter can take the next values: `weatherdotcom` `accuweather` and  `noaa`
+
+here mi wakatime metrics: https://wakatime.com/@ricardosiri68/projects/nppmuendql?start=2019-09-09&end=2019-09-15
+
 
 You can email me any questions ^^
