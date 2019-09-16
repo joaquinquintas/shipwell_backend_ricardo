@@ -52,7 +52,7 @@ def index(request: HttpRequest) -> JsonResponse:
 
     if errors:
         return JsonResponse(
-            {'error': error_serializer.to_dict(ValidationError(errors)) },
+            {'error': error_serializer.to_dict(ValidationError(errors))},
             status=403
         )
 

@@ -46,7 +46,7 @@ class AverageTemperature:
                 converted = True
 
             if not converted:
-                raise ConversionUnitNotImplemented(self.__conversion_unit)
+                raise ConversionUnitNotImplemented(self.__conversion_unit.unit_name)
 
     @property
     def average(self) -> Temperature:
