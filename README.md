@@ -116,7 +116,8 @@ Traceback (most recent call last):
   File "/home/smoke/workspace/weather_mi/.env/lib/python3.7/site-packages/gmaps/client.py", line 89, in _make_request
     )(response)
 gmaps.errors.RequestDenied: {'error_message': 'You must enable Billing on the Google Cloud Project at https://console.cloud.google.com/project/_/billing/enable Learn more at https://developers.google.com/maps/gmp-get-started', 'results': [], 'status': 'REQUEST_DENIED', 'url': 'https://maps.googleapis.com/maps/api/geocode/json?latlng=51.232000%2C21.123000&sensor=false&key=AIzaS******************************DvTw'}
->>> 
+>>>
+```
 
 here mi wakatime metrics: https://wakatime.com/@ricardosiri68/projects/nppmuendql?start=2019-09-09&end=2019-09-15
 
