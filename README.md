@@ -98,6 +98,26 @@ curl "http://localhost:8000/average_temperature/?latitude=33&longitude=44&servic
 
 The `service[]` filter can take the next values: `weatherdotcom` `accuweather` and  `noaa`
 
+## Downfalls with GMaps API
+
+I tried to make a concept proof of `python-gmaps` package  for validate and retrive (from zip code) location coords from the GMaps API  on this project but when i try to connect google answer me with this error of account pricing
+
+```python
+Python 3.7.4 (default, Jul 16 2019, 07:12:58) 
+[GCC 9.1.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from gmaps import Geocoding
+>>> api = Geocoding(api_key='AIzaS******************************DvTw')
+>>> api.reverse(51.232, 21.123)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/smoke/workspace/weather_mi/.env/lib/python3.7/site-packages/gmaps/geocoding.py", line 65, in reverse
+    return self._make_request(self.GEOCODE_URL, parameters, "results")
+  File "/home/smoke/workspace/weather_mi/.env/lib/python3.7/site-packages/gmaps/client.py", line 89, in _make_request
+    )(response)
+gmaps.errors.RequestDenied: {'error_message': 'You must enable Billing on the Google Cloud Project at https://console.cloud.google.com/project/_/billing/enable Learn more at https://developers.google.com/maps/gmp-get-started', 'results': [], 'status': 'REQUEST_DENIED', 'url': 'https://maps.googleapis.com/maps/api/geocode/json?latlng=51.232000%2C21.123000&sensor=false&key=AIzaS******************************DvTw'}
+>>> 
+
 here mi wakatime metrics: https://wakatime.com/@ricardosiri68/projects/nppmuendql?start=2019-09-09&end=2019-09-15
 
 
